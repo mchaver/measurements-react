@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import { FormattedMessage as FM } from 'react-intl';
 
 const scaleNames = {
   c: 'Celsius',
   f: 'Fahrenheit'
+};
+
+const a = {
+  c: <FM id='Temperature.celsius' defaultMessage='Celsius' />,
+  f: <FM id='Temperature.fahrenheit' defaultMessage='Fahrenheit' />,
 };
 
 class Temperature extends Component {

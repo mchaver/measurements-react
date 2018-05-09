@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormattedMessage as FM } from 'react-intl'
+import { FormattedMessage as FM } from 'react-intl';
 
 const areaTypes = {
   p: 'Pings',
@@ -40,7 +40,6 @@ class Area extends Component {
           value={area}
           onChange={this.handleChange}
         />
-        <FM id='Area.pings' defaultMessage='Pings' />
       </fieldset>
     );
   }

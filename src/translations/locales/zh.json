@@ -1,5 +1,7 @@
 {
   "Area.pings": "坪",
   "Area.squareFeet": "平方英尺",
-  "Area.squareMeters": "平方公尺"
+  "Area.squareMeters": "平方公尺",
+  "Temperature.celsius": "攝氏",
+  "Temperature.fahrenheit": "華氏"
 }
