@@ -1,0 +1,14 @@
+[
+  {
+    "id": "Area.pings",
+    "defaultMessage": "Pings"
+  },
+  {
+    "id": "Area.squareFeet",
+    "defaultMessage": "Square Feet"
+  },
+  {
+    "id": "Area.squareMeters",
+    "defaultMessage": "Square Meters"
+  }
+]
