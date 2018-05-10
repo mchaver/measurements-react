@@ -4,8 +4,7 @@ import PropTypes from 'prop-types'
 class Measure extends Component {
   static propTypes = {
     measureValue: PropTypes.string.isRequired,
-    measureType:  PropTypes.string.isRequired,
-    mearureTypes: PropTypes.object.isRequired,
+    measureType:  PropTypes.object.isRequired
   }
 
   constructor(props) {
@@ -18,11 +17,11 @@ class Measure extends Component {
   }
 
   render() {
-    {measureValue, measureType, measureTypes} = this.props;
+    const {measureValue, measureType, measureTypes} = this.props;
 
     return (
       <fieldset>
-        <legend>Enter measure in {measureTypes[measureType]}:</legend>
+        <legend>{measureType}:</legend>
         <input
           value={measureValue}
           onChange={this.handleChange}

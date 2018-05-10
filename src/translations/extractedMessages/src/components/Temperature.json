@@ -1,10 +1,10 @@
 [
   {
     "id": "Temperature.celsius",
-    "defaultMessage": "Pings"
+    "defaultMessage": "Celsius"
   },
   {
     "id": "Temperature.fahrenheit",
-    "defaultMessage": "Square Feet"
+    "defaultMessage": "Fahrenheit"
   }
 ]

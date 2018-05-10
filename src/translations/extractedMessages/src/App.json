@@ -1,0 +1,54 @@
+[
+  {
+    "id": "Length.inches",
+    "defaultMessage": "Inches"
+  },
+  {
+    "id": "Length.feet",
+    "defaultMessage": "Feet"
+  },
+  {
+    "id": "Length.yards",
+    "defaultMessage": "Yards"
+  },
+  {
+    "id": "Length.miles",
+    "defaultMessage": "Miles"
+  },
+  {
+    "id": "Length.centimeters",
+    "defaultMessage": "Centimeters"
+  },
+  {
+    "id": "Length.meters",
+    "defaultMessage": "Meters"
+  },
+  {
+    "id": "Length.kilometers",
+    "defaultMessage": "Kilometers"
+  },
+  {
+    "id": "Weight.ounces",
+    "defaultMessage": "Ounces"
+  },
+  {
+    "id": "Weight.pounds",
+    "defaultMessage": "Pounds"
+  },
+  {
+    "id": "Weight.grams",
+    "defaultMessage": "Grams"
+  },
+  {
+    "id": "Weight.kilograms",
+    "defaultMessage": "Kilograms"
+  },
+  {
+    "id": "Weight.taiwaneseJin",
+    "defaultMessage": "Taiwanese Jin"
+  },
+  {
+    "id": "Weight.taiwaneseLiang",
+    "defaultMessage": "Taiwanese Liang"
+  }
+]

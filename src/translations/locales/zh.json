@@ -2,6 +2,19 @@
   "Area.pings": "坪",
   "Area.squareFeet": "平方英尺",
   "Area.squareMeters": "平方公尺",
+  "Length.centimeters": "公分",
+  "Length.feet": "英尺",
+  "Length.inches": "英寸",
+  "Length.kilometers": "公里",
+  "Length.meters": "公尺",
+  "Length.miles": "英里",
+  "Length.yards": "碼",
   "Temperature.celsius": "攝氏",
-  "Temperature.fahrenheit": "華氏"
+  "Temperature.fahrenheit": "華氏",
+  "Weight.grams": "克",
+  "Weight.kilograms": "公斤",
+  "Weight.ounces": "盎司",
+  "Weight.pounds": "磅",
+  "Weight.taiwaneseJin": "台斤",
+  "Weight.taiwaneseLiang": "台兩"
 }
