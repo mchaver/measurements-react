@@ -10,27 +10,7 @@ import { FormattedMessage as FM } from 'react-intl';
 add length, weight
 */
 
-const lengthTypes = {
-  inches: <FM id='Length.inches' defaultMessage='Inches' />,
-  feet: <FM id='Length.feet' defaultMessage='Feet' />,
-  yards: <FM id='Length.yards' defaultMessage='Yards' />,
-  miles: <FM id='Length.miles' defaultMessage='Miles' />,
-  centimeters: <FM id='Length.centimeters' defaultMessage='Centimeters' />,
-  meters: <FM id='Length.meters' defaultMessage='Meters' />,
-  kilometers: <FM id='Length.kilometers' defaultMessage='Kilometers' />,
-};
 
-/*
-const lengthTypes = {
-  inches: <FM id='Length.inches' defaultMessage='Inches' />,
-  feet: <FM id='Length.feet' defaultMessage='Feet' />,
-  yards: <FM id='Length.yards' defaultMessage='Yards' />,
-  miles: <FM id='Length.miles' defaultMessage='Miles' />,
-  centimeters: <FM id='Length.centimeters' defaultMessage='Centimeters' />,
-  meters: <FM id='Length.meters' defaultMessage='Meters' />,
-  kilometers: <FM id='Length.kilometers' defaultMessage='Kilometers' />,
-};
-*/
 const weightTypes = {
   ounces: <FM id='Weight.ounces' defaultMessage='Ounces' />,
   pounds: <FM id='Weight.pounds' defaultMessage='Pounds' />,
@@ -40,20 +20,6 @@ const weightTypes = {
   tliang: <FM id='Weight.taiwaneseLiang' defaultMessage='Taiwanese Liang' />,
 };
 
-/*
-    { message: <FM id='Length.inches' defaultMessage='Inches' />
-    , ratios:
-      { inches: 1
-        , feet: 1
-        , yards
-        , miles
-        , centimeters
-        , meters
-        , kilometers
-      }
-
-*/
-
 const id = (x) => x;
 
 const lengths = {
@@ -62,7 +28,11 @@ const lengths = {
     conversions: { // to inches
       inches: id,
       feet: (x => x * 12),
-      yards: (x => x * 36)
+      yards: (x => x * 36),
+      miles: (x => x * 5280 * 12),
+      centimeters: (x => x / 2.54),
+      meters: (x => x * 254),
+      kilometers: (x => x * 254000)
     },
   },
   feet: {
@@ -70,7 +40,11 @@ const lengths = {
     conversions: { // to feet
       inches: (x => x / 12),
       feet: id,
-      yards: (x => x * 3)
+      yards: (x => x * 3),
+      miles: (x => x * 5280),
+      centimeters: (x => x / 30.48),
+      meters: (x => x * 3.2808),
+      kilometers: (x => x *  3280.8)
     },
   },
   yards: {
@@ -78,15 +52,61 @@ const lengths = {
     conversions: { // to yards
       inches: (x => x / 36),
       feet: (x => x / 3),
-      yards: id
+      yards: id,
+      miles: (x => x * 1760),
+      centimeters: (x => x / (30.48 * 3)),
+      meters: (x => x * 3.2808 * 3),
+      kilometers: (x => x * (3280.8 / 3))
+    }
+  },
+  miles: {
+    msg: <FM id='Length.miles' defaultMessage='Miles' />,
+    conversions: { // to miles
+      inches: (x => x / (5280 * 12)),
+      feet: (x => x / 5280),
+      yards: (x => x / (5280 / 3)),
+      miles: id,
+      centimeters: (x => x / 160000),
+      meters: (x => x / 1600),
+      kilometers: (x => x / 1.6)
+    }
+  },
+  centimeters: {
+    msg: <FM id='Length.centimeters' defaultMessage='Centimeters' />,
+    conversions: { // to centimeters
+      inches: (x => x * 2.54),
+      feet: (x => x * 30.48),
+      yards: (x => x * 91.44),
+      miles: (x => x * 160000),
+      centimeters: id,
+      meters: (x => x * 100),
+      kilometers: (x => x * 100 * 1000)
+    }
+  },
+  meters: {
+    msg: <FM id='Length.meters' defaultMessage='Meters' />,
+    conversions: { // to meters
+      inches: (x => x * 2.54),
+      feet: (x => x * 0.3048),
+      yards: (x => x * 0.9144),
+      miles: (x => x * 1600),
+      centimeters: (x => x / 100),
+      meters: id,
+      kilometers: (x => x * 1000)
+    }
+  },
+  kilometers: {
+    msg: <FM id='Length.kilometers' defaultMessage='Kilometers' />,
+    conversions: { // to kilometers
+      inches: (x => x * 2.54),
+      feet: (x => x * 0.0003048),
+      yards: (x => x * 0.0009144),
+      miles: (x => x * 1.6),
+      centimeters: (x => x / 100000),
+      meters: (x => x / 1000),
+      kilometers: id
     }
   }
-  /*
-  miles: <FM id='Length.miles' defaultMessage='Miles' />,
-  centimeters: <FM id='Length.centimeters' defaultMessage='Centimeters' />,
-  meters: <FM id='Length.meters' defaultMessage='Meters' />,
-  kilometers: <FM id='Length.kilometers' defaultMessage='Kilometers' />,
-*/
 };
 
 const temperatures = {
@@ -199,15 +219,7 @@ class App extends Component {
   handleLengthChange = (lengthType) => (length) => {
     this.setState({lengthType, length});
   }
-/*
-  handleInchesChange(length) {
-    this.setState({lengthType: 'inches', length});
-  }
 
-  handleFeetChange(length) {
-    this.setState({lengthType: 'feet', length});
-  }
-*/
   handlePingChange(area) {
     this.setState({areaType: 'p', area});
   }
@@ -241,6 +253,10 @@ class App extends Component {
     const inches = tryConvert(length, lengths.inches.conversions[lengthType]);
     const feet = tryConvert(length, lengths.feet.conversions[lengthType]);
     const yards = tryConvert(length, lengths.yards.conversions[lengthType]);
+    const miles = tryConvert(length, lengths.miles.conversions[lengthType]);
+    const centimeters = tryConvert(length, lengths.centimeters.conversions[lengthType]);
+    const meters = tryConvert(length, lengths.meters.conversions[lengthType]);
+    const kilometers = tryConvert(length, lengths.kilometers.conversions[lengthType]);
     
     const pings = areaType === 'f' ? tryConvert(area, squareFeetToPings) : (areaType === 'm' ? tryConvert(area, squareMetersToPings) : area);
     const squareMeters = areaType === 'f' ? tryConvert(area, squareFeetToSquareMeters) : (areaType === 'p' ? tryConvert(area, pingsToSquareMeters) : area);
@@ -274,6 +290,26 @@ class App extends Component {
           measureValue={yards}
           measureType={lengths.yards.msg}
           onMeasureValueChange={this.handleLengthChange('yards')} />
+
+        <Temperature
+          measureValue={miles}
+          measureType={lengths.miles.msg}
+          onMeasureValueChange={this.handleLengthChange('miles')} />
+
+        <Temperature
+          measureValue={centimeters}
+          measureType={lengths.centimeters.msg}
+          onMeasureValueChange={this.handleLengthChange('centimeters')} />
+
+        <Temperature
+          measureValue={meters}
+          measureType={lengths.meters.msg}
+          onMeasureValueChange={this.handleLengthChange('meters')} />
+
+        <Temperature
+          measureValue={kilometers}
+          measureType={lengths.kilometers.msg}
+          onMeasureValueChange={this.handleLengthChange('kilometers')} />
       
         <Area
           areaType="p"
