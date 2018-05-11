@@ -1,34 +1,28 @@
 import React, { Component } from 'react';
-import { FormattedMessage as FM } from 'react-intl';
-
-const scaleNames = {
-  c: 'Celsius',
-  f: 'Fahrenheit'
-};
-
-const a = {
-  c: <FM id='Temperature.celsius' defaultMessage='Celsius' />,
-  f: <FM id='Temperature.fahrenheit' defaultMessage='Fahrenheit' />,
-};
+import PropTypes from 'prop-types';
 
 class Temperature extends Component {
+  static propTypes = {
+    measureType:  PropTypes.object.isRequired,
+    measureValue: PropTypes.string.isRequired
+  }
+
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(e) {
-    this.props.onTemperatureChange(e.target.value);
+    this.props.onMeasureValueChange(e.target.value);
   }
 
   render() {
-    const temperature = this.props.temperature;
-    const scale = this.props.scale;
+    const {measureType, measureValue} = this.props;
 
     return (
       <fieldset>
-        <legend>Enter temperature in {scaleNames[scale]}:</legend>
-        <input value={temperature}
+        <legend>{measureType}</legend>
+        <input value={measureValue}
                onChange={this.handleChange} />
       </fieldset>
     );

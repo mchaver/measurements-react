@@ -20,6 +20,17 @@ const lengthTypes = {
   kilometers: <FM id='Length.kilometers' defaultMessage='Kilometers' />,
 };
 
+/*
+const lengthTypes = {
+  inches: <FM id='Length.inches' defaultMessage='Inches' />,
+  feet: <FM id='Length.feet' defaultMessage='Feet' />,
+  yards: <FM id='Length.yards' defaultMessage='Yards' />,
+  miles: <FM id='Length.miles' defaultMessage='Miles' />,
+  centimeters: <FM id='Length.centimeters' defaultMessage='Centimeters' />,
+  meters: <FM id='Length.meters' defaultMessage='Meters' />,
+  kilometers: <FM id='Length.kilometers' defaultMessage='Kilometers' />,
+};
+*/
 const weightTypes = {
   ounces: <FM id='Weight.ounces' defaultMessage='Ounces' />,
   pounds: <FM id='Weight.pounds' defaultMessage='Pounds' />,
@@ -27,6 +38,73 @@ const weightTypes = {
   kilograms: <FM id='Weight.kilograms' defaultMessage='Kilograms' />,
   tjin: <FM id='Weight.taiwaneseJin' defaultMessage='Taiwanese Jin' />,
   tliang: <FM id='Weight.taiwaneseLiang' defaultMessage='Taiwanese Liang' />,
+};
+
+/*
+    { message: <FM id='Length.inches' defaultMessage='Inches' />
+    , ratios:
+      { inches: 1
+        , feet: 1
+        , yards
+        , miles
+        , centimeters
+        , meters
+        , kilometers
+      }
+
+*/
+
+const id = (x) => x;
+
+const lengths = {
+  inches: {
+    msg: <FM id='Length.inches' defaultMessage='Inches' />,
+    conversions: { // to inches
+      inches: id,
+      feet: (x => x * 12),
+      yards: (x => x * 36)
+    },
+  },
+  feet: {
+    msg: <FM id='Length.feet' defaultMessage='Feet' />,
+    conversions: { // to feet
+      inches: (x => x / 12),
+      feet: id,
+      yards: (x => x * 3)
+    },
+  },
+  yards: {
+    msg: <FM id='Length.yards' defaultMessage='Yards' />,
+    conversions: { // to yards
+      inches: (x => x / 36),
+      feet: (x => x / 3),
+      yards: id
+    }
+  }
+  /*
+  miles: <FM id='Length.miles' defaultMessage='Miles' />,
+  centimeters: <FM id='Length.centimeters' defaultMessage='Centimeters' />,
+  meters: <FM id='Length.meters' defaultMessage='Meters' />,
+  kilometers: <FM id='Length.kilometers' defaultMessage='Kilometers' />,
+*/
+};
+
+const temperatures = {
+  celsius: {
+    msg: <FM id='Temperature.celsius' defaultMessage='Celsius' />,
+    conversions: { // to celsius
+      celsius: id,
+      fahrenheit: (x => (x - 32) * 5 / 9)
+    }
+  },
+
+  fahrenheit: {
+    msg: <FM id='Temperature.fahrenheit' defaultMessage='Fahrenheit' />,
+    conversions: { // to fahrenheit
+      celsius: (x => (x * 9 / 5) + 32),
+      fahrenheit: id
+    }
+  }
 };
 
 
@@ -100,8 +178,8 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.handleFeetChange = this.handleFeetChange.bind(this);
-    this.handleInchesChange = this.handleInchesChange.bind(this);
+    this.handleLengthChange = this.handleLengthChange.bind(this);
+    // this.handleInchesChange = this.handleInchesChange.bind(this);
     this.handlePingChange = this.handlePingChange.bind(this);
     this.handleSqFeetChange = this.handleSqFeetChange.bind(this);
     this.handleSqMeterChange = this.handleSqMeterChange.bind(this);
@@ -112,12 +190,16 @@ class App extends Component {
       { area:''
       , areaType: 'p'
       , temperature: ''
-      , scale: 'c'
+      , temperatureType: 'celsius'
       , length: ''
       , lengthType: 'inches'
       };
   }
 
+  handleLengthChange = (lengthType) => (length) => {
+    this.setState({lengthType, length});
+  }
+/*
   handleInchesChange(length) {
     this.setState({lengthType: 'inches', length});
   }
@@ -125,7 +207,7 @@ class App extends Component {
   handleFeetChange(length) {
     this.setState({lengthType: 'feet', length});
   }
-  
+*/
   handlePingChange(area) {
     this.setState({areaType: 'p', area});
   }
@@ -139,30 +221,34 @@ class App extends Component {
   }
 
   handleCelsiusChange(temperature) {
-    this.setState({scale: 'c', temperature});
+    this.setState({temperatureType: 'celsius', temperature});
   }
 
   handleFahrenheitChange(temperature) {
-    this.setState({scale: 'f', temperature});
+    this.setState({temperatureType: 'fahrenheit', temperature});
   }
 
   render() {
     const area = this.state.area;
     const areaType = this.state.areaType;
-    const scale = this.state.scale;
-    const temperature = this.state.temperature;
+
     const lengthType = this.state.lengthType;
     const length = this.state.length;
 
-    const inches = lengthType === 'feet' ? tryConvert(length, feetToInches) : length;
-
-    const feet = lengthType === 'inches' ? tryConvert(length, inchesToFeet) : length;
+    const temperature = this.state.temperature;
+    const temperatureType = this.state.temperatureType;
+    
+    const inches = tryConvert(length, lengths.inches.conversions[lengthType]);
+    const feet = tryConvert(length, lengths.feet.conversions[lengthType]);
+    const yards = tryConvert(length, lengths.yards.conversions[lengthType]);
     
     const pings = areaType === 'f' ? tryConvert(area, squareFeetToPings) : (areaType === 'm' ? tryConvert(area, squareMetersToPings) : area);
     const squareMeters = areaType === 'f' ? tryConvert(area, squareFeetToSquareMeters) : (areaType === 'p' ? tryConvert(area, pingsToSquareMeters) : area);
     const squareFeet = areaType === 'm' ? tryConvert(area, squareMetersToSquareFeet) : (areaType === 'p' ? tryConvert(area, pingsToSquareFeet) : area);
-    const celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
-    const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
+
+    const celsius = tryConvert(temperature, temperatures.celsius.conversions[temperatureType]); // scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
+    const fahrenheit = tryConvert(temperature, temperatures.fahrenheit.conversions[temperatureType]);
+    // const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
 
     return (
       <div className="App">
@@ -174,15 +260,20 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload. Hello.
         </p>
 
-        <Measure
-          measureType={lengthTypes.inches}
+        <Temperature
           measureValue={inches}
-          onMeasureChange={this.handleInchesChange} />
-
-        <Measure
-          measureType={lengthTypes.feet}
+          measureType={lengths.inches.msg}
+          onMeasureValueChange={this.handleLengthChange('inches')} />
+      
+        <Temperature
           measureValue={feet}
-          onMeasureChange={this.handleFeetChange} />
+          measureType={lengths.feet.msg}
+          onMeasureValueChange={this.handleLengthChange('feet')} />
+
+        <Temperature
+          measureValue={yards}
+          measureType={lengths.yards.msg}
+          onMeasureValueChange={this.handleLengthChange('yards')} />
       
         <Area
           areaType="p"
@@ -200,14 +291,14 @@ class App extends Component {
           onAreaChange={this.handleSqMeterChange} />
         
         <Temperature
-          scale="c"
-          temperature={celsius}
-          onTemperatureChange={this.handleCelsiusChange} />
+          measureValue={celsius}
+          measureType={temperatures.celsius.msg}
+          onMeasureValueChange={this.handleCelsiusChange} />
 
         <Temperature
-          scale="f"
-          temperature={fahrenheit}
-          onTemperatureChange={this.handleFahrenheitChange} />
+          measureValue={fahrenheit}
+          measureType={temperatures.fahrenheit.msg}
+          onMeasureValueChange={this.handleFahrenheitChange} />
 
       </div>
     );

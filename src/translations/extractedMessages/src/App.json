@@ -50,5 +50,13 @@
   {
     "id": "Weight.taiwaneseLiang",
     "defaultMessage": "Taiwanese Liang"
+  },
+  {
+    "id": "Temperature.celsius",
+    "defaultMessage": "Celsius"
+  },
+  {
+    "id": "Temperature.fahrenheit",
+    "defaultMessage": "Fahrenheit"
   }
 ]
