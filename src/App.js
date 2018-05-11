@@ -105,8 +105,8 @@ const weights = {
       pounds: (x => x * 16),
       grams: (x => x * 0.0353),
       kilograms: (x => x * 35.27),
-      taiwaneseLiang: id,
-      taiwaneseJin: id
+      taiwaneseLiang: (x => x * 1.322774),
+      taiwaneseJin: (x => x * 21.1644)
     }
   },
   pounds: {
@@ -116,8 +116,8 @@ const weights = {
       pounds: id,
       grams: (x => x / 453.59237),
       kilograms: (x => x * 2.268),
-      taiwaneseLiang: id,
-      taiwaneseJin: id
+      taiwaneseLiang: (x => x * 0.08267335),
+      taiwaneseJin: (x => x * 1.32277),
     }
   },
   grams: {
@@ -128,7 +128,7 @@ const weights = {
       grams: id,
       kilograms: (x => x * 1000),
       taiwaneseLiang: (x => x * 37.5),
-      taiwaneseJin: id
+      taiwaneseJin: (x => x * 600)
     }
   },
   kilograms: {
@@ -156,9 +156,9 @@ const weights = {
   taiwaneseJin: {
     msg: <FM id='Weight.taiwaneseJin' defaultMessage='Taiwanese Jin' />,
     conversions: { // to Taiwanese jin
-      ounces: id,
-      pounds: id,
-      grams: id,
+      ounces: (x => x / 21.1644),
+      pounds: (x => x / 1.32277),
+      grams: (x => x * 600),
       kilograms: (x => x * 0.6),
       taiwaneseLiang: (x => x / 16),
       taiwaneseJin: id
@@ -257,16 +257,11 @@ class App extends Component {
     super(props);
 
     this.handleLengthChange = this.handleLengthChange.bind(this);
-    // this.handleInchesChange = this.handleInchesChange.bind(this);
-    this.handlePingChange = this.handlePingChange.bind(this);
-    this.handleSqFeetChange = this.handleSqFeetChange.bind(this);
-    this.handleSqMeterChange = this.handleSqMeterChange.bind(this);
-    this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
-    this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+    this.handleTemperatureChange = this.handleTemperatureChange.bind(this);
 
     this.state =
       { area:''
-      , areaType: 'p'
+      , areaType: 'pings'
       , temperature: ''
       , temperatureType: 'celsius'
       , length: ''
@@ -278,36 +273,22 @@ class App extends Component {
     this.setState({lengthType, length});
   }
 
-  handlePingChange(area) {
-    this.setState({areaType: 'p', area});
+  handleTemperatureChange = (temperatureType) => (temperature) => {
+    this.setState({temperatureType, temperature});
   }
 
-  handleSqFeetChange(area) {
-    this.setState({areaType: 'f', area});
-  }
-
-  handleSqMeterChange(area) {
-    this.setState({areaType: 'm', area});
-  }
-
-  handleCelsiusChange(temperature) {
-    this.setState({temperatureType: 'celsius', temperature});
-  }
-
-  handleFahrenheitChange(temperature) {
-    this.setState({temperatureType: 'fahrenheit', temperature});
-  }
 
   render() {
     const area = this.state.area;
     const areaType = this.state.areaType;
 
-    const lengthType = this.state.lengthType;
-    const length = this.state.length;
+    const pings = areaType === 'f' ? tryConvert(area, squareFeetToPings) : (areaType === 'm' ? tryConvert(area, squareMetersToPings) : area);
+    const squareMeters = areaType === 'f' ? tryConvert(area, squareFeetToSquareMeters) : (areaType === 'p' ? tryConvert(area, pingsToSquareMeters) : area);
+    const squareFeet = areaType === 'm' ? tryConvert(area, squareMetersToSquareFeet) : (areaType === 'p' ? tryConvert(area, pingsToSquareFeet) : area);
 
-    const temperature = this.state.temperature;
-    const temperatureType = this.state.temperatureType;
-    
+    const length = this.state.length;    
+    const lengthType = this.state.lengthType;
+
     const inches = tryConvert(length, lengths.inches.conversions[lengthType]);
     const feet = tryConvert(length, lengths.feet.conversions[lengthType]);
     const yards = tryConvert(length, lengths.yards.conversions[lengthType]);
@@ -316,13 +297,11 @@ class App extends Component {
     const meters = tryConvert(length, lengths.meters.conversions[lengthType]);
     const kilometers = tryConvert(length, lengths.kilometers.conversions[lengthType]);
     
-    const pings = areaType === 'f' ? tryConvert(area, squareFeetToPings) : (areaType === 'm' ? tryConvert(area, squareMetersToPings) : area);
-    const squareMeters = areaType === 'f' ? tryConvert(area, squareFeetToSquareMeters) : (areaType === 'p' ? tryConvert(area, pingsToSquareMeters) : area);
-    const squareFeet = areaType === 'm' ? tryConvert(area, squareMetersToSquareFeet) : (areaType === 'p' ? tryConvert(area, pingsToSquareFeet) : area);
+    const temperature = this.state.temperature;
+    const temperatureType = this.state.temperatureType;
 
-    const celsius = tryConvert(temperature, temperatures.celsius.conversions[temperatureType]); // scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
+    const celsius = tryConvert(temperature, temperatures.celsius.conversions[temperatureType]);
     const fahrenheit = tryConvert(temperature, temperatures.fahrenheit.conversions[temperatureType]);
-    // const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
 
     return (
       <div className="App">
@@ -334,51 +313,57 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload. Hello.
         </p>
 
-        <Measure
-          measureValue={inches}
-          measureType={lengths.inches.msg}
-          onMeasureValueChange={this.handleLengthChange('inches')} />
-      
-        <Measure
-          measureValue={feet}
-          measureType={lengths.feet.msg}
-          onMeasureValueChange={this.handleLengthChange('feet')} />
+        <div>
+          <h2>Lengths</h2>
 
-        <Measure
-          measureValue={yards}
-          measureType={lengths.yards.msg}
-          onMeasureValueChange={this.handleLengthChange('yards')} />
+          <Measure
+            measureValue={inches}
+            measureType={lengths.inches.msg}
+            onMeasureValueChange={this.handleLengthChange('inches')} />
+          
+          <Measure
+            measureValue={feet}
+            measureType={lengths.feet.msg}
+            onMeasureValueChange={this.handleLengthChange('feet')} />
 
-        <Measure
-          measureValue={miles}
-          measureType={lengths.miles.msg}
-          onMeasureValueChange={this.handleLengthChange('miles')} />
+          <Measure
+            measureValue={yards}
+            measureType={lengths.yards.msg}
+            onMeasureValueChange={this.handleLengthChange('yards')} />
 
-        <Measure
-          measureValue={centimeters}
-          measureType={lengths.centimeters.msg}
-          onMeasureValueChange={this.handleLengthChange('centimeters')} />
+          <Measure
+            measureValue={miles}
+            measureType={lengths.miles.msg}
+            onMeasureValueChange={this.handleLengthChange('miles')} />
 
-        <Measure
-          measureValue={meters}
-          measureType={lengths.meters.msg}
-          onMeasureValueChange={this.handleLengthChange('meters')} />
+          <Measure
+            measureValue={centimeters}
+            measureType={lengths.centimeters.msg}
+            onMeasureValueChange={this.handleLengthChange('centimeters')} />
 
-        <Measure
-          measureValue={kilometers}
-          measureType={lengths.kilometers.msg}
-          onMeasureValueChange={this.handleLengthChange('kilometers')} />
-        
-        <Measure
-          measureValue={celsius}
-          measureType={temperatures.celsius.msg}
-          onMeasureValueChange={this.handleCelsiusChange} />
+          <Measure
+            measureValue={meters}
+            measureType={lengths.meters.msg}
+            onMeasureValueChange={this.handleLengthChange('meters')} />
 
-        <Measure
-          measureValue={fahrenheit}
-          measureType={temperatures.fahrenheit.msg}
-          onMeasureValueChange={this.handleFahrenheitChange} />
+          <Measure
+            measureValue={kilometers}
+            measureType={lengths.kilometers.msg}
+            onMeasureValueChange={this.handleLengthChange('kilometers')} />
+        </div>
 
+        <div>
+          <h2>Temperatures</h2>
+          <Measure
+            measureValue={celsius}
+            measureType={temperatures.celsius.msg}
+            onMeasureValueChange={this.handleTemperatureChange('temperature')} />
+
+          <Measure
+            measureValue={fahrenheit}
+            measureType={temperatures.fahrenheit.msg}
+            onMeasureValueChange={this.handleTemperatureChange('temperature')} />
+        </div>
       </div>
     );
   }
