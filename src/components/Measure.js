@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 class Measure extends Component {
   static propTypes = {
-    measureValue: PropTypes.string.isRequired,
-    measureType:  PropTypes.object.isRequired
+    measureType:  PropTypes.object.isRequired,
+    measureValue: PropTypes.string.isRequired
   }
 
   constructor(props) {
@@ -13,22 +13,21 @@ class Measure extends Component {
   }
 
   handleChange(e) {
-    this.props.onMeasureChange(e.target.value);
+    this.props.onMeasureValueChange(e.target.value);
   }
 
   render() {
-    const {measureValue, measureType, measureTypes} = this.props;
+    const {measureType, measureValue} = this.props;
 
     return (
       <fieldset>
-        <legend>{measureType}:</legend>
-        <input
-          value={measureValue}
-          onChange={this.handleChange}
-        />
+        <legend>{measureType}</legend>
+        <input value={measureValue}
+               onChange={this.handleChange} />
       </fieldset>
     );
   }
 }
+
 
 export default Measure;

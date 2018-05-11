@@ -1,24 +1,12 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Temperature from './components/Temperature.js'
-import Area from './components/Area.js'
 import Measure from './components/Measure.js'
 import { FormattedMessage as FM } from 'react-intl';
 
 /*
 add length, weight
 */
-
-
-const weightTypes = {
-  ounces: <FM id='Weight.ounces' defaultMessage='Ounces' />,
-  pounds: <FM id='Weight.pounds' defaultMessage='Pounds' />,
-  grams: <FM id='Weight.grams' defaultMessage='Grams' />,
-  kilograms: <FM id='Weight.kilograms' defaultMessage='Kilograms' />,
-  tjin: <FM id='Weight.taiwaneseJin' defaultMessage='Taiwanese Jin' />,
-  tliang: <FM id='Weight.taiwaneseLiang' defaultMessage='Taiwanese Liang' />,
-};
 
 const id = (x) => x;
 
@@ -108,6 +96,76 @@ const lengths = {
     }
   }
 };
+
+const weights = {
+  ounces: {
+    msg: <FM id='Weight.ounces' defaultMessage='Ounces' />,
+    conversions: { // to ounces
+      ounces: id,
+      pounds: (x => x * 16),
+      grams: (x => x * 0.0353),
+      kilograms: (x => x * 35.27),
+      taiwaneseLiang: id,
+      taiwaneseJin: id
+    }
+  },
+  pounds: {
+    msg: <FM id='Weight.pounds' defaultMessage='Pounds' />,
+    conversions: { // to pounds
+      ounces: (x => x / 16),
+      pounds: id,
+      grams: (x => x / 453.59237),
+      kilograms: (x => x * 2.268),
+      taiwaneseLiang: id,
+      taiwaneseJin: id
+    }
+  },
+  grams: {
+    msg: <FM id='Weight.grams' defaultMessage='Grams' />,
+    conversions: { // to grams
+      ounces: (x => x * 28.34952),
+      pounds: (x => x * 453.59237),
+      grams: id,
+      kilograms: (x => x * 1000),
+      taiwaneseLiang: (x => x * 37.5),
+      taiwaneseJin: id
+    }
+  },
+  kilograms: {
+    msg: <FM id='Weight.kilograms' defaultMessage='Kilograms' />,
+    conversions: { // to kilograms
+      ounces: (x => x / 35.27),
+      pounds: (x => x / 2.268),
+      grams: (x => x / 1000),
+      kilograms: id,
+      taiwaneseLiang: (x => x * 0.00375),
+      taiwaneseJin: (x => x / 0.6)
+    }
+  },
+  taiwaneseLiang: {
+    msg: <FM id='Weight.taiwaneseLiang' defaultMessage='Taiwanese Liang' />,
+    conversions: { // to Taiwanese liang
+      ounces: (x => x / 1.322774),
+      pounds: (x => x / 0.08267335),
+      grams: (x => x / 37.5),
+      kilograms: (x => x / 0.00375),
+      taiwaneseLiang: id,
+      taiwaneseJin: (x => x * 16)
+    }
+  },
+  taiwaneseJin: {
+    msg: <FM id='Weight.taiwaneseJin' defaultMessage='Taiwanese Jin' />,
+    conversions: { // to Taiwanese jin
+      ounces: id,
+      pounds: id,
+      grams: id,
+      kilograms: (x => x * 0.6),
+      taiwaneseLiang: (x => x / 16),
+      taiwaneseJin: id
+    }
+  }
+};
+
 
 const temperatures = {
   celsius: {
@@ -276,62 +334,47 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload. Hello.
         </p>
 
-        <Temperature
+        <Measure
           measureValue={inches}
           measureType={lengths.inches.msg}
           onMeasureValueChange={this.handleLengthChange('inches')} />
       
-        <Temperature
+        <Measure
           measureValue={feet}
           measureType={lengths.feet.msg}
           onMeasureValueChange={this.handleLengthChange('feet')} />
 
-        <Temperature
+        <Measure
           measureValue={yards}
           measureType={lengths.yards.msg}
           onMeasureValueChange={this.handleLengthChange('yards')} />
 
-        <Temperature
+        <Measure
           measureValue={miles}
           measureType={lengths.miles.msg}
           onMeasureValueChange={this.handleLengthChange('miles')} />
 
-        <Temperature
+        <Measure
           measureValue={centimeters}
           measureType={lengths.centimeters.msg}
           onMeasureValueChange={this.handleLengthChange('centimeters')} />
 
-        <Temperature
+        <Measure
           measureValue={meters}
           measureType={lengths.meters.msg}
           onMeasureValueChange={this.handleLengthChange('meters')} />
 
-        <Temperature
+        <Measure
           measureValue={kilometers}
           measureType={lengths.kilometers.msg}
           onMeasureValueChange={this.handleLengthChange('kilometers')} />
-      
-        <Area
-          areaType="p"
-          area={pings}
-          onAreaChange={this.handlePingChange} />
-
-        <Area
-          areaType="f"
-          area={squareFeet}
-          onAreaChange={this.handleSqFeetChange} />
-
-        <Area
-          areaType="m"
-          area={squareMeters}
-          onAreaChange={this.handleSqMeterChange} />
         
-        <Temperature
+        <Measure
           measureValue={celsius}
           measureType={temperatures.celsius.msg}
           onMeasureValueChange={this.handleCelsiusChange} />
 
-        <Temperature
+        <Measure
           measureValue={fahrenheit}
           measureType={temperatures.fahrenheit.msg}
           onMeasureValueChange={this.handleFahrenheitChange} />
