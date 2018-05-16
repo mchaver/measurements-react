@@ -260,12 +260,12 @@ class App extends Component {
     this.handleTemperatureChange = this.handleTemperatureChange.bind(this);
 
     this.state =
-      { area:''
+      { area: '1'
       , areaType: 'pings'
-      , temperature: ''
+      , temperature: '15'
       , temperatureType: 'celsius'
-      , length: ''
-      , lengthType: 'inches'
+      , length: '1'
+      , lengthType: 'miles'
       };
   }
 
@@ -306,63 +306,89 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Measurements</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload. Hello.
-        </p>
 
         <div>
-          <h2>Lengths</h2>
+          <h2 className="measure-header">
+            Lengths
+          </h2>
 
-          <Measure
-            measureValue={inches}
-            measureType={lengths.inches.msg}
-            onMeasureValueChange={this.handleLengthChange('inches')} />
-          
-          <Measure
-            measureValue={feet}
-            measureType={lengths.feet.msg}
-            onMeasureValueChange={this.handleLengthChange('feet')} />
+          <div className="measure-grid">
+            <h3 className="measure-box-1-1">
+              Imperial
+            </h3>
+            
+            <Measure
+              className="measure-box-1-2"
+              measureValue={inches}
+              measureType={lengths.inches.msg}
+              onMeasureValueChange={this.handleLengthChange('inches')} />
+            
+            <Measure
+              className="measure-box-1-3"              
+              measureValue={feet}
+              measureType={lengths.feet.msg}
+              onMeasureValueChange={this.handleLengthChange('feet')} />
 
-          <Measure
-            measureValue={yards}
-            measureType={lengths.yards.msg}
-            onMeasureValueChange={this.handleLengthChange('yards')} />
+            <Measure
+              className="measure-box-1-4"
+              measureValue={yards}
+              measureType={lengths.yards.msg}
+              onMeasureValueChange={this.handleLengthChange('yards')} />
 
-          <Measure
-            measureValue={miles}
-            measureType={lengths.miles.msg}
-            onMeasureValueChange={this.handleLengthChange('miles')} />
+            <Measure
+              className="measure-box-1-5"
+              measureValue={miles}
+              measureType={lengths.miles.msg}
+              onMeasureValueChange={this.handleLengthChange('miles')} />
 
-          <Measure
-            measureValue={centimeters}
-            measureType={lengths.centimeters.msg}
-            onMeasureValueChange={this.handleLengthChange('centimeters')} />
+            <h3 className="measure-box-2-1">
+              Metric
+            </h3>
+            <Measure
+              className="measure-box-2-2"
+              measureValue={centimeters}
+              measureType={lengths.centimeters.msg}
+              onMeasureValueChange={this.handleLengthChange('centimeters')} />
 
-          <Measure
-            measureValue={meters}
-            measureType={lengths.meters.msg}
-            onMeasureValueChange={this.handleLengthChange('meters')} />
+            <Measure
+              className="measure-box-2-3"
+              measureValue={meters}
+              measureType={lengths.meters.msg}
+              onMeasureValueChange={this.handleLengthChange('meters')} />
 
-          <Measure
-            measureValue={kilometers}
-            measureType={lengths.kilometers.msg}
-            onMeasureValueChange={this.handleLengthChange('kilometers')} />
+            <Measure
+              className="measure-box-2-4"
+              measureValue={kilometers}
+              measureType={lengths.kilometers.msg}
+              onMeasureValueChange={this.handleLengthChange('kilometers')} />
+          </div>
         </div>
 
         <div>
-          <h2>Temperatures</h2>
-          <Measure
-            measureValue={celsius}
-            measureType={temperatures.celsius.msg}
-            onMeasureValueChange={this.handleTemperatureChange('temperature')} />
+          <h2 className="measure-header">
+            Temperatures
+          </h2>          
+          <div className="measure-grid">
+            <h3 className="measure-box-1-1">
+              Imperial
+            </h3>
+            <Measure
+              className="measure-box-1-2"
+              measureValue={celsius}
+              measureType={temperatures.celsius.msg}
+              onMeasureValueChange={this.handleTemperatureChange('temperature')} />
 
-          <Measure
-            measureValue={fahrenheit}
-            measureType={temperatures.fahrenheit.msg}
-            onMeasureValueChange={this.handleTemperatureChange('temperature')} />
+            <h3 className="measure-box-2-1">
+              Metric
+            </h3>
+            <Measure
+              className="measure-box-2-2"
+              measureValue={fahrenheit}
+              measureType={temperatures.fahrenheit.msg}
+              onMeasureValueChange={this.handleTemperatureChange('temperature')} />
+          </div>
         </div>
       </div>
     );

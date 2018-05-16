@@ -17,14 +17,17 @@ class Measure extends Component {
   }
 
   render() {
-    const {measureType, measureValue} = this.props;
+    const {measureType, measureValue, className} = this.props;
 
     return (
-      <fieldset>
-        <legend>{measureType}</legend>
-        <input value={measureValue}
+      <div className={className}>
+        <label className="measure-label">
+          {measureType}
+        </label>
+        <input className="measure-input"
+               value={measureValue}
                onChange={this.handleChange} />
-      </fieldset>
+      </div>
     );
   }
 }
