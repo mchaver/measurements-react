@@ -3,85 +3,36 @@ import logo from './logo.svg';
 import './App.css';
 import Measure from './components/Measure.js';
 import { FormattedMessage as FM } from 'react-intl';
-import { lengths, weights, temperatures } from './Measurements.js';
-
-/*
-add length, weight
-*/
-
-const inchesToCentimeters = 2.54;
-const feetToMeters = 0.3048;
-const milesToFeet = 5280;
-const milesToMeters = 1610;
-
-const poundsToKilos = 2.2046;
-const ouncesToPounds = 0.0625;
-const poundsToOunces = 16;
-const ouncesToGrams = 28.35;
-
-const taiJinToTaiLiang = 16;
-
-// 台斤 · 台兩
-// 1 台斤為1 日斤，故1 台斤 = 600 公克 = 0.6 公斤，1台兩 = 37.5 公克。
-// 台灣台制的台兩：十六分之一台斤，即37.5克。
-
-function feetToInches(feet) {
-  return feet * 12;
-}
-
-function inchesToFeet(inches) {
-  return inches / 12;
-}
-
-function pingsToSquareFeet(pings) {
-  return (pings * 35.5832);
-}
-
-function pingsToSquareMeters(pings) {
-  return (pings * 3.30579);
-}
-
-function squareMetersToPings(sqMeters) {
-  return (sqMeters * 0.3025);
-}
-
-function squareMetersToSquareFeet(sqMeters) {
-  return (sqMeters * 10.7639);
-}
-
-function squareFeetToPings(sqFeet) {
-  return (sqFeet * 0.0281032);
-}
-
-function squareFeetToSquareMeters(sqFeet) {
-  return (sqFeet * 0.092903);
-}
-
-function tryConvert(measure, convert) {
-  const input = parseFloat(measure);
-  if (Number.isNaN(input)) {
-    return '';
-  }
-  const output = convert(input);
-  const rounded = Math.round(output * 100000) / 100000;
-  return rounded.toString();
-}
+import {
+  areas,
+  lengths,
+  weights,
+  temperatures,
+  tryConvert } from './Measurements.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
+    this.handleAreaChange = this.handleAreaChange.bind(this);
     this.handleLengthChange = this.handleLengthChange.bind(this);
     this.handleTemperatureChange = this.handleTemperatureChange.bind(this);
+    this.handleWeightChange = this.handleWeightChange.bind(this);
 
-    this.state =
-      { area: '1'
-      , areaType: 'pings'
-      , temperature: '15'
-      , temperatureType: 'celsius'
-      , length: '1'
-      , lengthType: 'miles'
+    this.state = {
+      area: '1',
+      areaType: 'pings',
+      temperature: '15',
+      temperatureType: 'celsius',
+      length: '1',
+      lengthType: 'miles',
+      weight: '1',
+      weightType: 'kilograms'
       };
+  }
+
+  handleAreaChange = (areaType) => (area) => {
+    this.setState({areaType, area});
   }
 
   handleLengthChange = (lengthType) => (length) => {
@@ -92,14 +43,17 @@ class App extends Component {
     this.setState({temperatureType, temperature});
   }
 
+  handleWeightChange = (weightType) => (weight) => {
+    this.setState({weightType, weight});
+  }  
 
   render() {
     const area = this.state.area;
     const areaType = this.state.areaType;
 
-    const pings = areaType === 'f' ? tryConvert(area, squareFeetToPings) : (areaType === 'm' ? tryConvert(area, squareMetersToPings) : area);
-    const squareMeters = areaType === 'f' ? tryConvert(area, squareFeetToSquareMeters) : (areaType === 'p' ? tryConvert(area, pingsToSquareMeters) : area);
-    const squareFeet = areaType === 'm' ? tryConvert(area, squareMetersToSquareFeet) : (areaType === 'p' ? tryConvert(area, pingsToSquareFeet) : area);
+    const squareFeet = tryConvert(area, areas.squareFeet.conversions[areaType]);
+    const squareMeters = tryConvert(area, areas.squareMeters.conversions[areaType]);
+    const pings = tryConvert(area, areas.pings.conversions[areaType]);
 
     const length = this.state.length;    
     const lengthType = this.state.lengthType;
@@ -118,6 +72,16 @@ class App extends Component {
     const celsius = tryConvert(temperature, temperatures.celsius.conversions[temperatureType]);
     const fahrenheit = tryConvert(temperature, temperatures.fahrenheit.conversions[temperatureType]);
     const kelvin = tryConvert(temperature, temperatures.kelvin.conversions[temperatureType]);
+
+    const weight = this.state.weight;
+    const weightType = this.state.weightType;
+
+    const ounces = tryConvert(weight, weights.ounces.conversions[weightType]);
+    const pounds = tryConvert(weight, weights.pounds.conversions[weightType]);
+    const grams = tryConvert(weight, weights.grams.conversions[weightType]);
+    const kilograms = tryConvert(weight, weights.kilograms.conversions[weightType]);
+    const liang = tryConvert(weight, weights.liang.conversions[weightType]);
+    const jin = tryConvert(weight, weights.jin.conversions[weightType]);
     
     return (
       <div className="App">
@@ -212,6 +176,108 @@ class App extends Component {
             </div>
           </div>
         </div>
+
+        <div>
+          <h2 className="measure-header">
+            <FM id='Measurement.weights' defaultMessage='Weights'/>
+          </h2>          
+          <div className="measure-row">
+            <div className="measure-column">
+              <h3>
+                <FM id='Measurement.imperial' defaultMessage='Imperial'/>
+              </h3>
+
+              <Measure
+                measureValue={ounces}
+                measureType={weights.ounces.msg}
+                onMeasureValueChange={this.handleWeightChange('ounces')} />
+
+              <Measure
+                measureValue={pounds}
+                measureType={weights.pounds.msg}
+                onMeasureValueChange={this.handleWeightChange('pounds')} />
+            </div>
+            
+            <div className="measure-column">
+              <h3 className="measure-box-2-1">
+                <FM id='Measurement.metric' defaultMessage='Metric'/>
+              </h3>
+
+              <Measure
+                measureValue={grams}
+                measureType={weights.grams.msg}
+                onMeasureValueChange={this.handleWeightChange('grams')} />
+
+              <Measure
+                measureValue={kilograms}
+                measureType={weights.kilograms.msg}
+                onMeasureValueChange={this.handleWeightChange('kilograms')} />
+            </div>
+
+            <div className="measure-column">
+              <h3 className="measure-box-2-1">
+                <FM id='Measurement.taiwanese' defaultMessage='Taiwanese'/>
+              </h3>
+
+              <Measure
+                measureValue={liang}
+                measureType={weights.liang.msg}
+                onMeasureValueChange={this.handleWeightChange('liang')} />
+
+              <Measure
+                measureValue={jin}
+                measureType={weights.jin.msg}
+                onMeasureValueChange={this.handleWeightChange('jin')} />
+            </div>
+            
+          </div>
+        </div>
+
+        <div>
+          <h2 className="measure-header">
+            <FM id='Measurement.area' defaultMessage='Area'/>
+          </h2>          
+          <div className="measure-row">
+            <div className="measure-column">
+              <h3>
+                <FM id='Measurement.imperial' defaultMessage='Imperial'/>
+              </h3>
+
+              <Measure
+                measureValue={squareFeet}
+                measureType={areas.squareFeet.msg}
+                onMeasureValueChange={this.handleAreaChange('squareFeet')} />
+
+            </div>
+            
+            <div className="measure-column">
+              <h3 className="measure-box-2-1">
+                <FM id='Measurement.metric' defaultMessage='Metric'/>
+              </h3>
+
+              <Measure
+                measureValue={squareMeters}
+                measureType={areas.squareMeters.msg}
+                onMeasureValueChange={this.handleAreaChange('squareMeters')} />
+
+            </div>
+
+            <div className="measure-column">
+              <h3 className="measure-box-2-1">
+                <FM id='Measurement.taiwanese' defaultMessage='Taiwanese'/>
+              </h3>
+
+              <Measure
+                measureValue={pings}
+                measureType={areas.pings.msg}
+                onMeasureValueChange={this.handleWeightChange('pings')} />
+
+            </div>
+            
+          </div>
+        </div>
+
+        <div className="space"></div>
       </div>
     );
   }

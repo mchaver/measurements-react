@@ -28,6 +28,18 @@
     "defaultMessage": "Kilometers"
   },
   {
+    "id": "Weight.squareFeet",
+    "defaultMessage": "Square Feet"
+  },
+  {
+    "id": "Weight.squareMeters",
+    "defaultMessage": "Square Meters"
+  },
+  {
+    "id": "Weight.pings",
+    "defaultMessage": "Pings"
+  },
+  {
     "id": "Weight.ounces",
     "defaultMessage": "Ounces"
   },

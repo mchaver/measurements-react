@@ -41,6 +41,10 @@ body {
     box-shadow: 1px 1px 4px #9ecaed;
 }
 
+.space {
+    height: 300px;
+}
+
 /* .glowing-border { */
 /*     border: 2px solid #dadada; */
 /*     border-radius: 7px; */

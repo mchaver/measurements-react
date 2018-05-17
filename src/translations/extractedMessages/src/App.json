@@ -14,5 +14,17 @@
   {
     "id": "Measurement.temperatures",
     "defaultMessage": "Temperatures"
+  },
+  {
+    "id": "Measurement.weights",
+    "defaultMessage": "Weights"
+  },
+  {
+    "id": "Measurement.taiwanese",
+    "defaultMessage": "Taiwanese"
+  },
+  {
+    "id": "Measurement.area",
+    "defaultMessage": "Area"
   }
 ]

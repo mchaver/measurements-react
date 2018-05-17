@@ -90,6 +90,33 @@ export const lengths = {
   }
 };
 
+export const areas = {
+  squareFeet: {
+    msg: <FM id='Weight.squareFeet' defaultMessage='Square Feet' />,
+    conversions: { // to squareFeet
+      squareFeet: id,
+      squareMeters: (x => x * 10.7639),
+      pings: (x => x * 35.5832)
+    }
+  },
+  squareMeters: {
+    msg: <FM id='Weight.squareMeters' defaultMessage='Square Meters' />,
+    conversions: { // to squareMeters
+      squareFeet: (x => x * 0.092903),
+      squareMeters: id,
+      pings: (x => x * 3.30579)
+    }
+  },
+  pings: {
+    msg: <FM id='Weight.pings' defaultMessage='Pings' />,
+    conversions: { // to pings
+      squareFeet: (x => x * 0.0281032),
+      squareMeters: (x => x * 0.3025),
+      pings: id
+    }
+  },
+};
+
 export const weights = {
   ounces: {
     msg: <FM id='Weight.ounces' defaultMessage='Ounces' />,
@@ -98,8 +125,8 @@ export const weights = {
       pounds: (x => x * 16),
       grams: (x => x * 0.0353),
       kilograms: (x => x * 35.27),
-      taiwaneseLiang: (x => x * 1.322774),
-      taiwaneseJin: (x => x * 21.1644)
+      liang: (x => x * 1.322774),
+      jin: (x => x * 21.1644)
     }
   },
   pounds: {
@@ -109,8 +136,8 @@ export const weights = {
       pounds: id,
       grams: (x => x / 453.59237),
       kilograms: (x => x * 2.268),
-      taiwaneseLiang: (x => x * 0.08267335),
-      taiwaneseJin: (x => x * 1.32277),
+      liang: (x => x * 0.08267335),
+      jin: (x => x * 1.32277),
     }
   },
   grams: {
@@ -120,8 +147,8 @@ export const weights = {
       pounds: (x => x * 453.59237),
       grams: id,
       kilograms: (x => x * 1000),
-      taiwaneseLiang: (x => x * 37.5),
-      taiwaneseJin: (x => x * 600)
+      liang: (x => x * 37.5),
+      jin: (x => x * 600)
     }
   },
   kilograms: {
@@ -131,30 +158,30 @@ export const weights = {
       pounds: (x => x / 2.268),
       grams: (x => x / 1000),
       kilograms: id,
-      taiwaneseLiang: (x => x * 0.00375),
-      taiwaneseJin: (x => x / 0.6)
+      liang: (x => x * 0.00375),
+      jin: (x => x * 0.6)
     }
   },
-  taiwaneseLiang: {
+  liang: {
     msg: <FM id='Weight.taiwaneseLiang' defaultMessage='Taiwanese Liang' />,
     conversions: { // to Taiwanese liang
       ounces: (x => x / 1.322774),
       pounds: (x => x / 0.08267335),
       grams: (x => x / 37.5),
       kilograms: (x => x / 0.00375),
-      taiwaneseLiang: id,
-      taiwaneseJin: (x => x * 16)
+      liang: id,
+      jin: (x => x * 16)
     }
   },
-  taiwaneseJin: {
+  jin: {
     msg: <FM id='Weight.taiwaneseJin' defaultMessage='Taiwanese Jin' />,
     conversions: { // to Taiwanese jin
       ounces: (x => x / 21.1644),
       pounds: (x => x / 1.32277),
-      grams: (x => x * 600),
-      kilograms: (x => x * 0.6),
-      taiwaneseLiang: (x => x / 16),
-      taiwaneseJin: id
+      grams: (x => x / 0.0006),
+      kilograms: (x => x / 0.6),
+      liang: (x => x / 16),
+      jin: id
     }
   }
 };
@@ -186,4 +213,14 @@ export const temperatures = {
       kelvin: id
     }
   }
+};
+
+export function tryConvert(measure, convert) {
+  const input = parseFloat(measure);
+  if (Number.isNaN(input)) {
+    return '';
+  }
+  const output = convert(input);
+  const rounded = Math.round(output * 100000) / 100000;
+  return rounded.toString();
 };
