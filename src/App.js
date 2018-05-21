@@ -21,7 +21,7 @@ class App extends Component {
 
     this.state = {
       area: '1',
-      areaType: 'pings',
+      areaType: 'hectares',
       temperature: '15',
       temperatureType: 'celsius',
       length: '1',
@@ -52,7 +52,9 @@ class App extends Component {
     const areaType = this.state.areaType;
 
     const squareFeet = tryConvert(area, areas.squareFeet.conversions[areaType]);
+    const acres = tryConvert(area, areas.acres.conversions[areaType]);
     const squareMeters = tryConvert(area, areas.squareMeters.conversions[areaType]);
+    const hectares = tryConvert(area, areas.hectares.conversions[areaType]);
     const pings = tryConvert(area, areas.pings.conversions[areaType]);
 
     const length = this.state.length;    
@@ -158,6 +160,7 @@ class App extends Component {
                 measureType={temperatures.fahrenheit.msg}
                 onMeasureValueChange={this.handleTemperatureChange('temperature')} />
             </div>
+
             
             <div className="measure-column">
               <h3 className="measure-box-2-1">
@@ -248,6 +251,11 @@ class App extends Component {
                 measureType={areas.squareFeet.msg}
                 onMeasureValueChange={this.handleAreaChange('squareFeet')} />
 
+              <Measure
+                measureValue={acres}
+                measureType={areas.acres.msg}
+                onMeasureValueChange={this.handleAreaChange('acres')} />
+              
             </div>
             
             <div className="measure-column">
@@ -260,6 +268,11 @@ class App extends Component {
                 measureType={areas.squareMeters.msg}
                 onMeasureValueChange={this.handleAreaChange('squareMeters')} />
 
+              <Measure
+                measureValue={hectares}
+                measureType={areas.hectares.msg}
+                onMeasureValueChange={this.handleAreaChange('hectares')} />
+              
             </div>
 
             <div className="measure-column">
@@ -270,7 +283,7 @@ class App extends Component {
               <Measure
                 measureValue={pings}
                 measureType={areas.pings.msg}
-                onMeasureValueChange={this.handleWeightChange('pings')} />
+                onMeasureValueChange={this.handleAreaChange('pings')} />
 
             </div>
             

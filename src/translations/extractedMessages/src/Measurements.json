@@ -32,8 +32,16 @@
     "defaultMessage": "Square Feet"
   },
   {
+    "id": "Weight.acres",
+    "defaultMessage": "Acres"
+  },
+  {
     "id": "Weight.squareMeters",
     "defaultMessage": "Square Meters"
+  },
+  {
+    "id": "Weight.hectares",
+    "defaultMessage": "Hectares"
   },
   {
     "id": "Weight.pings",
