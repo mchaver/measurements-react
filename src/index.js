@@ -1,14 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import { IntlProvider } from 'react-intl';
 import registerServiceWorker from './registerServiceWorker';
+import SwitchIntlProvider from './SwitchIntlProvider';
 
 ReactDOM.render(
-  <IntlProvider locale={"en"}>
-    <App />
-  </IntlProvider>,
+  <SwitchIntlProvider/>,
   document.getElementById('root')
 );
 registerServiceWorker();

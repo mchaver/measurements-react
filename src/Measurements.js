@@ -92,7 +92,7 @@ export const lengths = {
 
 export const areas = {
   squareFeet: {
-    msg: <FM id='Weight.squareFeet' defaultMessage='Square Feet' />,
+    msg: <FM id='Area.squareFeet' defaultMessage='Square Feet' />,
     conversions: { // to squareFeet
       squareFeet: id,
       acres: (x => x * 43560),
@@ -102,7 +102,7 @@ export const areas = {
     }
   },
   acres: {
-    msg: <FM id='Weight.acres' defaultMessage='Acres' />,
+    msg: <FM id='Area.acres' defaultMessage='Acres' />,
     conversions: { // to acres
       squareFeet: (x => x / 43560),
       acres: id,
@@ -112,7 +112,7 @@ export const areas = {
     }
   },  
   squareMeters: {
-    msg: <FM id='Weight.squareMeters' defaultMessage='Square Meters' />,
+    msg: <FM id='Area.squareMeters' defaultMessage='Square Meters' />,
     conversions: { // to squareMeters
       squareFeet: (x => x * 0.092903),
       acres: (x => x * 4046.86),
@@ -122,7 +122,7 @@ export const areas = {
     }
   },
   hectares : {
-    msg: <FM id='Weight.hectares' defaultMessage='Hectares' />,
+    msg: <FM id='Area.hectares' defaultMessage='Hectares' />,
     conversions: { // to hectares
       squareFeet: (x => x / 107639),
       acres: (x => x / 2.417),
@@ -132,7 +132,7 @@ export const areas = {
     }
   },
   pings: {
-    msg: <FM id='Weight.pings' defaultMessage='Pings' />,
+    msg: <FM id='Area.pings' defaultMessage='Pings' />,
     conversions: { // to pings
       squareFeet: (x => x * 0.0281032),
       acres: (x => x * 1224.17),

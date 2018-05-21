@@ -28,23 +28,23 @@
     "defaultMessage": "Kilometers"
   },
   {
-    "id": "Weight.squareFeet",
+    "id": "Area.squareFeet",
     "defaultMessage": "Square Feet"
   },
   {
-    "id": "Weight.acres",
+    "id": "Area.acres",
     "defaultMessage": "Acres"
   },
   {
-    "id": "Weight.squareMeters",
+    "id": "Area.squareMeters",
     "defaultMessage": "Square Meters"
   },
   {
-    "id": "Weight.hectares",
+    "id": "Area.hectares",
     "defaultMessage": "Hectares"
   },
   {
-    "id": "Weight.pings",
+    "id": "Area.pings",
     "defaultMessage": "Pings"
   },
   {

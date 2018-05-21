@@ -1,4 +1,6 @@
 {
+  "Area.acres": "英畝",
+  "Area.hectares": "公頃",
   "Area.pings": "坪",
   "Area.squareFeet": "平方英尺",
   "Area.squareMeters": "平方公尺",
@@ -19,15 +21,10 @@
   "Temperature.celsius": "攝氏",
   "Temperature.fahrenheit": "華氏",
   "Temperature.kelvin": "克耳文",
-  "Weight.acres": "英畝",
   "Weight.grams": "克",
-  "Weight.hectares": "公頃",
   "Weight.kilograms": "公斤",
   "Weight.ounces": "盎司",
-  "Weight.pings": "坪",
   "Weight.pounds": "磅",
-  "Weight.squareFeet": "平方英尺",
-  "Weight.squareMeters": "平方公尺",
   "Weight.taiwaneseJin": "台斤",
   "Weight.taiwaneseLiang": "台兩"
 }

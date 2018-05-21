@@ -91,6 +91,12 @@ class App extends Component {
           <h1 className="App-title">Measurements</h1>
         </header>
 
+        <div className="button-group">
+          <button className="button1" onClick={(e) => this.props.setLanguage('zh')}>Chinese</button>
+          <button className="button1" onClick={(e) => this.props.setLanguage('en')}>English</button>
+          <button className="button1" onClick={(e) => this.props.setLanguage('es')}>Espanol</button>
+        </div>
+        
         <div>
           <h2 className="measure-header">
             <FM id='Measurement.lengths' defaultMessage='Lengths'/>
