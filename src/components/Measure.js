@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 class Measure extends Component {
   static propTypes = {
-    measureValue: PropTypes.string.isRequired,
-    measureType:  PropTypes.object.isRequired
+    measureType:  PropTypes.object.isRequired,
+    measureValue: PropTypes.string.isRequired
   }
 
   constructor(props) {
@@ -13,22 +13,24 @@ class Measure extends Component {
   }
 
   handleChange(e) {
-    this.props.onMeasureChange(e.target.value);
+    this.props.onMeasureValueChange(e.target.value);
   }
 
   render() {
-    const {measureValue, measureType, measureTypes} = this.props;
+    const {measureType, measureValue, className} = this.props;
 
     return (
-      <fieldset>
-        <legend>{measureType}:</legend>
-        <input
-          value={measureValue}
-          onChange={this.handleChange}
-        />
-      </fieldset>
+      <div className={className}>
+        <label className="measure-label">
+          {measureType}
+        </label>
+        <input className="measure-input"
+               value={measureValue}
+               onChange={this.handleChange} />
+      </div>
     );
   }
 }
+
 
 export default Measure;

@@ -1,214 +1,303 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Temperature from './components/Temperature.js'
-import Area from './components/Area.js'
-import Measure from './components/Measure.js'
+import Measure from './components/Measure.js';
 import { FormattedMessage as FM } from 'react-intl';
-
-/*
-add length, weight
-*/
-
-const lengthTypes = {
-  inches: <FM id='Length.inches' defaultMessage='Inches' />,
-  feet: <FM id='Length.feet' defaultMessage='Feet' />,
-  yards: <FM id='Length.yards' defaultMessage='Yards' />,
-  miles: <FM id='Length.miles' defaultMessage='Miles' />,
-  centimeters: <FM id='Length.centimeters' defaultMessage='Centimeters' />,
-  meters: <FM id='Length.meters' defaultMessage='Meters' />,
-  kilometers: <FM id='Length.kilometers' defaultMessage='Kilometers' />,
-};
-
-const weightTypes = {
-  ounces: <FM id='Weight.ounces' defaultMessage='Ounces' />,
-  pounds: <FM id='Weight.pounds' defaultMessage='Pounds' />,
-  grams: <FM id='Weight.grams' defaultMessage='Grams' />,
-  kilograms: <FM id='Weight.kilograms' defaultMessage='Kilograms' />,
-  tjin: <FM id='Weight.taiwaneseJin' defaultMessage='Taiwanese Jin' />,
-  tliang: <FM id='Weight.taiwaneseLiang' defaultMessage='Taiwanese Liang' />,
-};
-
-
-const inchesToCentimeters = 2.54;
-const feetToMeters = 0.3048;
-const milesToFeet = 5280;
-const milesToMeters = 1610;
-
-const poundsToKilos = 2.2046;
-const ouncesToPounds = 0.0625;
-const poundsToOunces = 16;
-const ouncesToGrams = 28.35;
-
-const taiJinToTaiLiang = 16;
-
-// 台斤 · 台兩
-// 1 台斤為1 日斤，故1 台斤 = 600 公克 = 0.6 公斤，1台兩 = 37.5 公克。
-// 台灣台制的台兩：十六分之一台斤，即37.5克。
-
-function feetToInches(feet) {
-  return feet * 12;
-}
-
-function inchesToFeet(inches) {
-  return inches / 12;
-}
-
-function pingsToSquareFeet(pings) {
-  return (pings * 35.5832);
-}
-
-function pingsToSquareMeters(pings) {
-  return (pings * 3.30579);
-}
-
-function squareMetersToPings(sqMeters) {
-  return (sqMeters * 0.3025);
-}
-
-function squareMetersToSquareFeet(sqMeters) {
-  return (sqMeters * 10.7639);
-}
-
-function squareFeetToPings(sqFeet) {
-  return (sqFeet * 0.0281032);
-}
-
-function squareFeetToSquareMeters(sqFeet) {
-  return (sqFeet * 0.092903);
-}
-
-function toCelsius(fahrenheit) {
-  return (fahrenheit - 32) * 5 / 9;
-}
-
-function toFahrenheit(celsius) {
-  return (celsius * 9 / 5) + 32;
-}
-
-function tryConvert(measure, convert) {
-  const input = parseFloat(measure);
-  if (Number.isNaN(input)) {
-    return '';
-  }
-  const output = convert(input);
-  const rounded = Math.round(output * 1000) / 1000;
-  return rounded.toString();
-}
+import {
+  areas,
+  lengths,
+  weights,
+  temperatures,
+  tryConvert } from './Measurements.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
-    this.handleFeetChange = this.handleFeetChange.bind(this);
-    this.handleInchesChange = this.handleInchesChange.bind(this);
-    this.handlePingChange = this.handlePingChange.bind(this);
-    this.handleSqFeetChange = this.handleSqFeetChange.bind(this);
-    this.handleSqMeterChange = this.handleSqMeterChange.bind(this);
-    this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
-    this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+    this.handleAreaChange = this.handleAreaChange.bind(this);
+    this.handleLengthChange = this.handleLengthChange.bind(this);
+    this.handleTemperatureChange = this.handleTemperatureChange.bind(this);
+    this.handleWeightChange = this.handleWeightChange.bind(this);
 
-    this.state =
-      { area:''
-      , areaType: 'p'
-      , temperature: ''
-      , scale: 'c'
-      , length: ''
-      , lengthType: 'inches'
+    this.state = {
+      area: '1',
+      areaType: 'hectares',
+      temperature: '15',
+      temperatureType: 'celsius',
+      length: '1',
+      lengthType: 'miles',
+      weight: '1',
+      weightType: 'kilograms'
       };
   }
 
-  handleInchesChange(length) {
-    this.setState({lengthType: 'inches', length});
+  handleAreaChange = (areaType) => (area) => {
+    this.setState({areaType, area});
   }
 
-  handleFeetChange(length) {
-    this.setState({lengthType: 'feet', length});
-  }
-  
-  handlePingChange(area) {
-    this.setState({areaType: 'p', area});
+  handleLengthChange = (lengthType) => (length) => {
+    this.setState({lengthType, length});
   }
 
-  handleSqFeetChange(area) {
-    this.setState({areaType: 'f', area});
+  handleTemperatureChange = (temperatureType) => (temperature) => {
+    this.setState({temperatureType, temperature});
   }
 
-  handleSqMeterChange(area) {
-    this.setState({areaType: 'm', area});
-  }
-
-  handleCelsiusChange(temperature) {
-    this.setState({scale: 'c', temperature});
-  }
-
-  handleFahrenheitChange(temperature) {
-    this.setState({scale: 'f', temperature});
-  }
+  handleWeightChange = (weightType) => (weight) => {
+    this.setState({weightType, weight});
+  }  
 
   render() {
     const area = this.state.area;
     const areaType = this.state.areaType;
-    const scale = this.state.scale;
-    const temperature = this.state.temperature;
+
+    const squareFeet = tryConvert(area, areas.squareFeet.conversions[areaType]);
+    const acres = tryConvert(area, areas.acres.conversions[areaType]);
+    const squareMeters = tryConvert(area, areas.squareMeters.conversions[areaType]);
+    const hectares = tryConvert(area, areas.hectares.conversions[areaType]);
+    const pings = tryConvert(area, areas.pings.conversions[areaType]);
+
+    const length = this.state.length;    
     const lengthType = this.state.lengthType;
-    const length = this.state.length;
 
-    const inches = lengthType === 'feet' ? tryConvert(length, feetToInches) : length;
-
-    const feet = lengthType === 'inches' ? tryConvert(length, inchesToFeet) : length;
+    const inches = tryConvert(length, lengths.inches.conversions[lengthType]);
+    const feet = tryConvert(length, lengths.feet.conversions[lengthType]);
+    const yards = tryConvert(length, lengths.yards.conversions[lengthType]);
+    const miles = tryConvert(length, lengths.miles.conversions[lengthType]);
+    const centimeters = tryConvert(length, lengths.centimeters.conversions[lengthType]);
+    const meters = tryConvert(length, lengths.meters.conversions[lengthType]);
+    const kilometers = tryConvert(length, lengths.kilometers.conversions[lengthType]);
     
-    const pings = areaType === 'f' ? tryConvert(area, squareFeetToPings) : (areaType === 'm' ? tryConvert(area, squareMetersToPings) : area);
-    const squareMeters = areaType === 'f' ? tryConvert(area, squareFeetToSquareMeters) : (areaType === 'p' ? tryConvert(area, pingsToSquareMeters) : area);
-    const squareFeet = areaType === 'm' ? tryConvert(area, squareMetersToSquareFeet) : (areaType === 'p' ? tryConvert(area, pingsToSquareFeet) : area);
-    const celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
-    const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
+    const temperature = this.state.temperature;
+    const temperatureType = this.state.temperatureType;
 
+    const celsius = tryConvert(temperature, temperatures.celsius.conversions[temperatureType]);
+    const fahrenheit = tryConvert(temperature, temperatures.fahrenheit.conversions[temperatureType]);
+    const kelvin = tryConvert(temperature, temperatures.kelvin.conversions[temperatureType]);
+
+    const weight = this.state.weight;
+    const weightType = this.state.weightType;
+
+    const ounces = tryConvert(weight, weights.ounces.conversions[weightType]);
+    const pounds = tryConvert(weight, weights.pounds.conversions[weightType]);
+    const grams = tryConvert(weight, weights.grams.conversions[weightType]);
+    const kilograms = tryConvert(weight, weights.kilograms.conversions[weightType]);
+    const liang = tryConvert(weight, weights.liang.conversions[weightType]);
+    const jin = tryConvert(weight, weights.jin.conversions[weightType]);
+    
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+        <header className="app-header">
+          <h1 className="app-title">
+            <FM id='App.measurements' defaultMessage='Measurements' />
+          </h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload. Hello.
-        </p>
 
-        <Measure
-          measureType={lengthTypes.inches}
-          measureValue={inches}
-          onMeasureChange={this.handleInchesChange} />
-
-        <Measure
-          measureType={lengthTypes.feet}
-          measureValue={feet}
-          onMeasureChange={this.handleFeetChange} />
-      
-        <Area
-          areaType="p"
-          area={pings}
-          onAreaChange={this.handlePingChange} />
-
-        <Area
-          areaType="f"
-          area={squareFeet}
-          onAreaChange={this.handleSqFeetChange} />
-
-        <Area
-          areaType="m"
-          area={squareMeters}
-          onAreaChange={this.handleSqMeterChange} />
+        <div className="button-group">
+          <button onClick={(e) => this.props.setLanguage('zh')}>中文</button>
+          <button onClick={(e) => this.props.setLanguage('en')}>English</button>
+          <button onClick={(e) => this.props.setLanguage('es')}>Español</button>
+        </div>
         
-        <Temperature
-          scale="c"
-          temperature={celsius}
-          onTemperatureChange={this.handleCelsiusChange} />
+        <div>
+          <h2 className="measure-header">
+            <FM id='Measurement.lengths' defaultMessage='Lengths'/>
+          </h2>
 
-        <Temperature
-          scale="f"
-          temperature={fahrenheit}
-          onTemperatureChange={this.handleFahrenheitChange} />
+          <div className="measure-row">
+            <div className="measure-column">
+              <h3>
+                <FM id='Measurement.imperial' defaultMessage='Imperial'/>
+              </h3>
+              
+              <Measure
+                measureValue={inches}
+                measureType={lengths.inches.msg}
+                onMeasureValueChange={this.handleLengthChange('inches')} />
+              
+              <Measure
+                measureValue={feet}
+                measureType={lengths.feet.msg}
+                onMeasureValueChange={this.handleLengthChange('feet')} />
 
+              <Measure
+                measureValue={yards}
+                measureType={lengths.yards.msg}
+                onMeasureValueChange={this.handleLengthChange('yards')} />
+
+              <Measure
+                measureValue={miles}
+                measureType={lengths.miles.msg}
+                onMeasureValueChange={this.handleLengthChange('miles')} />
+            </div>
+
+            <div className="measure-column">
+              <h3>
+                <FM id='Measurement.metric' defaultMessage='Metric'/>
+              </h3>
+              <Measure
+                measureValue={centimeters}
+                measureType={lengths.centimeters.msg}
+                onMeasureValueChange={this.handleLengthChange('centimeters')} />
+
+              <Measure
+                measureValue={meters}
+                measureType={lengths.meters.msg}
+                onMeasureValueChange={this.handleLengthChange('meters')} />
+
+              <Measure
+                measureValue={kilometers}
+                measureType={lengths.kilometers.msg}
+                onMeasureValueChange={this.handleLengthChange('kilometers')} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="measure-header">
+            <FM id='Measurement.temperatures' defaultMessage='Temperatures'/>
+          </h2>          
+          <div className="measure-row">
+            <div className="measure-column">
+              <h3>
+                <FM id='Measurement.imperial' defaultMessage='Imperial'/>
+              </h3>
+
+              <Measure
+                measureValue={fahrenheit}
+                measureType={temperatures.fahrenheit.msg}
+                onMeasureValueChange={this.handleTemperatureChange('temperature')} />
+            </div>
+
+            
+            <div className="measure-column">
+              <h3 className="measure-box-2-1">
+                <FM id='Measurement.metric' defaultMessage='Metric'/>
+              </h3>
+
+              <Measure
+                measureValue={celsius}
+                measureType={temperatures.celsius.msg}
+                onMeasureValueChange={this.handleTemperatureChange('temperature')} />
+
+              <Measure
+                measureValue={kelvin}
+                measureType={temperatures.kelvin.msg}
+                onMeasureValueChange={this.handleTemperatureChange('temperature')} />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="measure-header">
+            <FM id='Measurement.weights' defaultMessage='Weights'/>
+          </h2>          
+          <div className="measure-row">
+            <div className="measure-column">
+              <h3>
+                <FM id='Measurement.imperial' defaultMessage='Imperial'/>
+              </h3>
+
+              <Measure
+                measureValue={ounces}
+                measureType={weights.ounces.msg}
+                onMeasureValueChange={this.handleWeightChange('ounces')} />
+
+              <Measure
+                measureValue={pounds}
+                measureType={weights.pounds.msg}
+                onMeasureValueChange={this.handleWeightChange('pounds')} />
+            </div>
+            
+            <div className="measure-column">
+              <h3 className="measure-box-2-1">
+                <FM id='Measurement.metric' defaultMessage='Metric'/>
+              </h3>
+
+              <Measure
+                measureValue={grams}
+                measureType={weights.grams.msg}
+                onMeasureValueChange={this.handleWeightChange('grams')} />
+
+              <Measure
+                measureValue={kilograms}
+                measureType={weights.kilograms.msg}
+                onMeasureValueChange={this.handleWeightChange('kilograms')} />
+            </div>
+
+            <div className="measure-column">
+              <h3 className="measure-box-2-1">
+                <FM id='Measurement.taiwanese' defaultMessage='Taiwanese'/>
+              </h3>
+
+              <Measure
+                measureValue={liang}
+                measureType={weights.liang.msg}
+                onMeasureValueChange={this.handleWeightChange('liang')} />
+
+              <Measure
+                measureValue={jin}
+                measureType={weights.jin.msg}
+                onMeasureValueChange={this.handleWeightChange('jin')} />
+            </div>
+            
+          </div>
+        </div>
+
+        <div>
+          <h2 className="measure-header">
+            <FM id='Measurement.area' defaultMessage='Area'/>
+          </h2>          
+          <div className="measure-row">
+            <div className="measure-column">
+              <h3>
+                <FM id='Measurement.imperial' defaultMessage='Imperial'/>
+              </h3>
+
+              <Measure
+                measureValue={squareFeet}
+                measureType={areas.squareFeet.msg}
+                onMeasureValueChange={this.handleAreaChange('squareFeet')} />
+
+              <Measure
+                measureValue={acres}
+                measureType={areas.acres.msg}
+                onMeasureValueChange={this.handleAreaChange('acres')} />
+              
+            </div>
+            
+            <div className="measure-column">
+              <h3 className="measure-box-2-1">
+                <FM id='Measurement.metric' defaultMessage='Metric'/>
+              </h3>
+
+              <Measure
+                measureValue={squareMeters}
+                measureType={areas.squareMeters.msg}
+                onMeasureValueChange={this.handleAreaChange('squareMeters')} />
+
+              <Measure
+                measureValue={hectares}
+                measureType={areas.hectares.msg}
+                onMeasureValueChange={this.handleAreaChange('hectares')} />
+              
+            </div>
+
+            <div className="measure-column">
+              <h3 className="measure-box-2-1">
+                <FM id='Measurement.taiwanese' defaultMessage='Taiwanese'/>
+              </h3>
+
+              <Measure
+                measureValue={pings}
+                measureType={areas.pings.msg}
+                onMeasureValueChange={this.handleAreaChange('pings')} />
+
+            </div>
+            
+          </div>
+        </div>
+
+        <div className="space"></div>
       </div>
     );
   }

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "Length.inches",
+    "defaultMessage": "Inches"
+  },
+  {
+    "id": "Length.feet",
+    "defaultMessage": "Feet"
+  },
+  {
+    "id": "Length.yards",
+    "defaultMessage": "Yards"
+  },
+  {
+    "id": "Length.miles",
+    "defaultMessage": "Miles"
+  },
+  {
+    "id": "Length.centimeters",
+    "defaultMessage": "Centimeters"
+  },
+  {
+    "id": "Length.meters",
+    "defaultMessage": "Meters"
+  },
+  {
+    "id": "Length.kilometers",
+    "defaultMessage": "Kilometers"
+  },
+  {
+    "id": "Area.squareFeet",
+    "defaultMessage": "Square Feet"
+  },
+  {
+    "id": "Area.acres",
+    "defaultMessage": "Acres"
+  },
+  {
+    "id": "Area.squareMeters",
+    "defaultMessage": "Square Meters"
+  },
+  {
+    "id": "Area.hectares",
+    "defaultMessage": "Hectares"
+  },
+  {
+    "id": "Area.pings",
+    "defaultMessage": "Pings"
+  },
+  {
+    "id": "Weight.ounces",
+    "defaultMessage": "Ounces"
+  },
+  {
+    "id": "Weight.pounds",
+    "defaultMessage": "Pounds"
+  },
+  {
+    "id": "Weight.grams",
+    "defaultMessage": "Grams"
+  },
+  {
+    "id": "Weight.kilograms",
+    "defaultMessage": "Kilograms"
+  },
+  {
+    "id": "Weight.taiwaneseLiang",
+    "defaultMessage": "Taiwanese Liang"
+  },
+  {
+    "id": "Weight.taiwaneseJin",
+    "defaultMessage": "Taiwanese Jin"
+  },
+  {
+    "id": "Temperature.celsius",
+    "defaultMessage": "Celsius"
+  },
+  {
+    "id": "Temperature.fahrenheit",
+    "defaultMessage": "Fahrenheit"
+  },
+  {
+    "id": "Temperature.kelvin",
+    "defaultMessage": "Kelvin"
+  }
+]

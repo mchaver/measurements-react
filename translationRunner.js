@@ -7,5 +7,5 @@ const manageTranslations = require('react-intl-translations-manager').default;
 manageTranslations({
   messagesDirectory: 'src/translations/extractedMessages',
   translationsDirectory: 'src/translations/locales/',
-  languages: ['zh'] // any language you need
+  languages: ['en', 'es', 'zh'] // any language you need
 });

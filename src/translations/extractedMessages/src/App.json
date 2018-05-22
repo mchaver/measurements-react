@@ -1,54 +1,34 @@
 [
   {
-    "id": "Length.inches",
-    "defaultMessage": "Inches"
+    "id": "App.measurements",
+    "defaultMessage": "Measurements"
   },
   {
-    "id": "Length.feet",
-    "defaultMessage": "Feet"
+    "id": "Measurement.lengths",
+    "defaultMessage": "Lengths"
   },
   {
-    "id": "Length.yards",
-    "defaultMessage": "Yards"
+    "id": "Measurement.imperial",
+    "defaultMessage": "Imperial"
   },
   {
-    "id": "Length.miles",
-    "defaultMessage": "Miles"
+    "id": "Measurement.metric",
+    "defaultMessage": "Metric"
   },
   {
-    "id": "Length.centimeters",
-    "defaultMessage": "Centimeters"
+    "id": "Measurement.temperatures",
+    "defaultMessage": "Temperatures"
   },
   {
-    "id": "Length.meters",
-    "defaultMessage": "Meters"
+    "id": "Measurement.weights",
+    "defaultMessage": "Weights"
   },
   {
-    "id": "Length.kilometers",
-    "defaultMessage": "Kilometers"
+    "id": "Measurement.taiwanese",
+    "defaultMessage": "Taiwanese"
   },
   {
-    "id": "Weight.ounces",
-    "defaultMessage": "Ounces"
-  },
-  {
-    "id": "Weight.pounds",
-    "defaultMessage": "Pounds"
-  },
-  {
-    "id": "Weight.grams",
-    "defaultMessage": "Grams"
-  },
-  {
-    "id": "Weight.kilograms",
-    "defaultMessage": "Kilograms"
-  },
-  {
-    "id": "Weight.taiwaneseJin",
-    "defaultMessage": "Taiwanese Jin"
-  },
-  {
-    "id": "Weight.taiwaneseLiang",
-    "defaultMessage": "Taiwanese Liang"
+    "id": "Measurement.area",
+    "defaultMessage": "Area"
   }
 ]
