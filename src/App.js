@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Measure from './components/Measure.js';
 import { FormattedMessage as FM } from 'react-intl';
@@ -88,13 +87,15 @@ class App extends Component {
     return (
       <div className="App">
         <header className="app-header">
-          <h1 className="App-title">Measurements</h1>
+          <h1 className="app-title">
+            <FM id='App.measurements' defaultMessage='Measurements' />
+          </h1>
         </header>
 
         <div className="button-group">
-          <button className="button1" onClick={(e) => this.props.setLanguage('zh')}>Chinese</button>
-          <button className="button1" onClick={(e) => this.props.setLanguage('en')}>English</button>
-          <button className="button1" onClick={(e) => this.props.setLanguage('es')}>Espanol</button>
+          <button onClick={(e) => this.props.setLanguage('zh')}>中文</button>
+          <button onClick={(e) => this.props.setLanguage('en')}>English</button>
+          <button onClick={(e) => this.props.setLanguage('es')}>Español</button>
         </div>
         
         <div>

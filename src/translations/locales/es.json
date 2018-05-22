@@ -1,6 +1,7 @@
 {
+  "App.measurements": "Mediciones",
   "Area.acres": "Acres",
-  "Area.hectares": "Hectares",
+  "Area.hectares": "Hectáreas",
   "Area.pings": "Pings",
   "Area.squareFeet": "Pies Cuadrados",
   "Area.squareMeters": "Metros Cuadrados",

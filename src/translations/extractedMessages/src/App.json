@@ -1,5 +1,9 @@
 [
   {
+    "id": "App.measurements",
+    "defaultMessage": "Measurements"
+  },
+  {
     "id": "Measurement.lengths",
     "defaultMessage": "Lengths"
   },
