@@ -165,9 +165,8 @@ class App extends Component {
               <Measure
                 measureValue={fahrenheit}
                 measureType={temperatures.fahrenheit.msg}
-                onMeasureValueChange={this.handleTemperatureChange('temperature')} />
+                onMeasureValueChange={this.handleTemperatureChange('fahrenheit')} />
             </div>
-
             
             <div className="measure-column">
               <h3 className="measure-box-2-1">
@@ -177,12 +176,12 @@ class App extends Component {
               <Measure
                 measureValue={celsius}
                 measureType={temperatures.celsius.msg}
-                onMeasureValueChange={this.handleTemperatureChange('temperature')} />
+                onMeasureValueChange={this.handleTemperatureChange('celsius')} />
 
               <Measure
                 measureValue={kelvin}
                 measureType={temperatures.kelvin.msg}
-                onMeasureValueChange={this.handleTemperatureChange('temperature')} />
+                onMeasureValueChange={this.handleTemperatureChange('kelvin')} />
             </div>
           </div>
         </div>
