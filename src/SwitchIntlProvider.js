@@ -16,7 +16,7 @@ addLocaleData([...en, ...es, ...zh])
 class SwitchIntlProvider extends Component {
   constructor(props) {
     super(props);
-    this.state = {locale: 'zh', messages: zhTranslations};
+    this.state = {locale: 'en', messages: enTranslations};
 
     this.setLanguage = this.setLanguage.bind(this);
   }
