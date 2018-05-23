@@ -98,7 +98,7 @@ class App extends Component {
           <button onClick={(e) => this.props.setLanguage('es')}>Español</button>
         </div>
         
-        <div>
+        <div className="first-measure-group">
           <h2 className="measure-header">
             <FM id='Measurement.lengths' defaultMessage='Lengths'/>
           </h2>
@@ -152,7 +152,7 @@ class App extends Component {
           </div>
         </div>
 
-        <div>
+        <div className="measure-group">
           <h2 className="measure-header">
             <FM id='Measurement.temperatures' defaultMessage='Temperatures'/>
           </h2>          
@@ -186,7 +186,7 @@ class App extends Component {
           </div>
         </div>
 
-        <div>
+        <div className="measure-group">
           <h2 className="measure-header">
             <FM id='Measurement.weights' defaultMessage='Weights'/>
           </h2>          
@@ -242,7 +242,7 @@ class App extends Component {
           </div>
         </div>
 
-        <div>
+        <div className="measure-group">
           <h2 className="measure-header">
             <FM id='Measurement.area' defaultMessage='Area'/>
           </h2>          
