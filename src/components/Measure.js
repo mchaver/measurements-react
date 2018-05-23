@@ -20,7 +20,7 @@ class Measure extends Component {
     const {measureType, measureValue, className} = this.props;
 
     return (
-      <div className={className}>
+      <div className="measure-set">
         <label className="measure-label">
           {measureType}
         </label>

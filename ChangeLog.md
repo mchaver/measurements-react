@@ -1,5 +1,10 @@
 # Revision history for measurements-react
 
+## 0.2.1 -- 2018-05-22
+
+* Update style.
+* Attempt fix for inputs in iOS.
+
 ## 0.2.0 -- 2018-05-22
 
 * Set default language to English.
